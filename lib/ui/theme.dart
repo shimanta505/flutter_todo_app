@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'custom_material_color.dart';
+import '../utils/custom_material_color.dart';
 
 const Color blueishClr = Color(0xFF4e5ae8);
 const Color yellowClr = Color(0xFFFFB746);

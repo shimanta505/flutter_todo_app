@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_todo/services/notification_service.dart';
 import 'package:flutter_todo/services/theme_services.dart';
-import 'package:flutter_todo/ui/add_task_bar.dart';
+import 'package:flutter_todo/ui/screens/edit_task_screen.dart';
 import 'package:flutter_todo/ui/theme.dart';
 import 'package:flutter_todo/ui/widgets/button.dart';
 import 'package:flutter_todo/ui/widgets/task_tile.dart';
@@ -11,8 +11,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'controllers/taskController.dart';
-import 'model/task.dart';
+import '../../controllers/taskController.dart';
+import '../../model/task.dart';
+import 'add_task_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _taskController = Get.put(TaskController());
   DateTime _selectedDate = DateTime.now();
-  var notifyHelper;
+  late NotifyHelper notifyHelper;
   @override
   initState() {
     super.initState();
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 4),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         height: 55,
         width: Get.width * 0.9,
         decoration: BoxDecoration(
@@ -91,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Get.bottomSheet(
       Container(
         padding: const EdgeInsets.only(top: 4),
-        height: task.isCompleted == 1 ? Get.height * 0.24 : Get.height * 0.38,
+        height: task.isCompleted == 1 ? Get.height * 0.35 : Get.height * 0.45,
         color: Get.isDarkMode ? darkGreyClr : Colors.white,
         child: Column(
           children: [
@@ -102,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Get.isDarkMode ? Colors.grey[600] : Colors.grey[300],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             task.isCompleted == 1
                 ? Container()
                 : _bottomSheetButton(
@@ -123,8 +124,17 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.red,
               context: context,
             ),
+            _bottomSheetButton(
+              label: "Edit task",
+              onTap: () async {
+                await Get.to(EditTaskScreen(task: task));
+                Get.back();
+              },
+              color: Colors.red,
+              context: context,
+            ),
             SizedBox(
-              height: 20,
+              height: Get.height * 0.015,
             ),
             _bottomSheetButton(
               label: "close",
@@ -136,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
             ),
             SizedBox(
-              height: 10,
+              height: Get.height * 0.005,
             )
           ],
         ),
@@ -243,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
             label: "Add Task",
             onTap: () async {
               print("navigate to task page");
-              await Get.to(const AddTaskPage());
+              await Get.to(const AddTaskScreen());
               print("come to home page");
               _taskController.getTasks();
             },

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../model/task.dart';
@@ -25,17 +26,17 @@ class DbHelper {
             "color INTEGER, isCompleted INTEGER)");
       }));
     } catch (e) {
-      print("exception happend db $e");
+      debugPrint("exception happend db $e");
     }
   }
 
   static Future<int> insert(Task? task) async {
-    print("insert() called");
+    debugPrint("insert() called");
     return await _db?.insert(_tableName, task!.toJson()) ?? 1;
   }
 
   static Future<List<Map<String, dynamic>>> query() async {
-    print("query called");
+    debugPrint("query called");
     return await _db!.query(_tableName);
   }
 
@@ -44,10 +45,23 @@ class DbHelper {
   }
 
   static update(int id) async {
+    debugPrint("update called");
     return await _db!.rawUpdate('''
 UPDATE tasks
 SET isCompleted = ?
 WHERE id =?
 ''', [1, id]);
+  }
+
+  static editTask(Task task) async {
+    try {
+      debugPrint(task.id.toString());
+      var count = await _db!.update(_tableName, task.toJson(),
+          where: 'id=?', whereArgs: [task.id]);
+      debugPrint(count.toString());
+    } catch (e) {
+      debugPrint("edit task called");
+      debugPrint("error is $e");
+    }
   }
 }

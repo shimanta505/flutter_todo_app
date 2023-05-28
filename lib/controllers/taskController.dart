@@ -24,4 +24,9 @@ class TaskController extends GetxController {
     await DbHelper.update(id);
     getTasks();
   }
+
+  void editTask(Task task) async {
+    await DbHelper.editTask(task);
+    getTasks();
+  }
 }
