@@ -62,7 +62,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 ),
                 MyInputField(
                   title: "Date",
-                  hint: task.date.toString(),
+                  hint: _taskBarController.selectedDate.toString(),
                   onTap: () async {
                     await _getDateFromUser();
 
@@ -99,7 +99,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     Expanded(
                       child: MyInputField(
                         title: "start time",
-                        hint: task.startTime.toString(),
+                        hint: _taskBarController.startTime.toString(),
                         onTap: () async {
                           await _getTimeFromUser(true);
                           if (_calculateDifferenceTime(
@@ -134,7 +134,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     Expanded(
                       child: MyInputField(
                         title: "End time",
-                        hint: task.endTime.toString(),
+                        hint: _taskBarController.endTime.toString(),
                         onTap: () => _getTimeFromUser(false),
                         widget: IconButton(
                           onPressed: () {
